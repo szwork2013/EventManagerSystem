@@ -1,0 +1,46 @@
+body {
+  font-family: Calibri, "Droid Sans", "Helvetica Neue", Helvetica, Ubuntu, Arial, sans-serif;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td,
+.table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  vertical-align: middle;
+}
+.itead .main {
+  margin-top: 71px;
+}
+.itead .col-default {
+  padding-left: 18px;
+}
+.itead .col-default > span {
+  font-size: 20px;
+}
+.itead .margin-bottom-zero {
+  margin-bottom: 0!important;
+}
+.itead h5 {
+  font-size: 16px;
+}
+.itead label.required:before {
+  content: '*';
+  color: red;
+}
+.itead .form-horizontal select {
+  width: 100%;
+  padding: 6px 12px;
+}
+.itead .form-horizontal label.control-label:after {
+  content: ':';
+}
+.itead td>dl {
+  margin-bottom: 0;
+  font-style: italic;
+}
+.itead td>dl dd {
+  margin-left: 1em;
+}
+
+@media (min-width: 768px) {
+  .navbar-form .form-control {
+    width: 10em;
+  }
+}
