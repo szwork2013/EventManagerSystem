@@ -17,7 +17,7 @@ db.connection.on('error', function (err) {
   process.exit(1);
 });
 db.connection.on('open', function () {
-  debug('Connect to DB successful!');
+  debug('Connect to DB successful! url:',config.db.uri);
 });
 
 var routes = require('./routes/index');

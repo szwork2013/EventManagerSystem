@@ -16,16 +16,78 @@
 </head>
 
 <body>
-<div class="jumbotron">
-  <h1>活动管理系统 </h1><h2>V0.0.1 beta</h2>
-  <br>
+<div ng-app="EventApp" class="itead">
+  <div ng-controller="IndexCtrl" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#/">活动管理系统</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav" ng-show="isLoggedIn()">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown">
+              功能页面 <span class="caret"></span>
+              <ul class="dropdown-menu">
+                <li><a href="#/manager">用户|权限 管理</a></li>
+                <li><a href="#/">Create An Item</a></li>
+                <li class="divider"></li>
+                <li><a href="#/">Existing Parcels</a></li>
+                <li><a href="#/">Create A Parcel</a></li>
+              </ul>
+            </a>
+
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown">
+              ... <span class="caret"></span>
+            </a>
+
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown">
+              ... <span class="caret"></span>
+            </a>
+
+          </li>
+        </ul>
+        <form class="navbar-form navbar-right">
+          <div class="form-group" ng-hide="isLoggedIn()">
+            <input ng-model="accounts" type="text"
+                   placeholder="账户" class="form-control">
+          </div>
+          <div class="form-group" ng-hide="isLoggedIn()">
+            <input ng-model="password" type="password"
+                   placeholder="密码" class="form-control">
+          </div>
+          <div class="form-group" ng-show="isLoggedIn()">
+            <strong>欢迎你,<span ng-class="isAdmin()? 'text-danger' : 'text-waring'">[{{user_role}}]</span>{{user_accounts}}</strong>
+          </div>
+          <button ng-click="submit()" class="btn"
+                  ng-class="isLoggedIn() ? 'btn-warning' : 'btn-success'">
+            {{isLoggedIn() ? '退出' : '登陆'}}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container main" ng-view></div>
 </div>
 
-<script type="text/javascript" src="lib/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="lib/angular/angular.min.js"></script>
-<script type="text/javascript" src="lib/angular-route/angular-route.min.js"></script>
-<script type="text/javascript" src="lib/angular-resource/angular-resource.min.js"></script>
+<script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="lib/angular/angular.js"></script>
+<script type="text/javascript" src="lib/angular-route/angular-route.js"></script>
+<script type="text/javascript" src="lib/angular-resource/angular-resource.js"></script>
 <script type="text/javascript" src="lib/async/lib/async.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/services.js"></script>
+<script type="text/javascript" src="js/directives.js"></script>
+<script type="text/javascript" src="js/controllers.js"></script>
 </body>
 </html>

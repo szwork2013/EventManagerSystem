@@ -1,4 +1,4 @@
-angular.module('DistApp')
+angular.module('EventApp')
 
   .directive('mkFile', [ '$window', function ($window) {
     return {
