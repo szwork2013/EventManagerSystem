@@ -9,6 +9,10 @@ angular.module('EventApp', [ 'ngRoute', 'ngResource'])
         templateUrl: 'view/base.html',
         controller: 'AccountCtrl'
       })
+      .when('/manager', {
+        templateUrl: 'view/User/Manager.html',
+        controller: 'UserManagerCtrl'
+      })
       .otherwise('/');
 
     $httpProvider.interceptors.push('authInterceptor');

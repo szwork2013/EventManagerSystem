@@ -45,11 +45,13 @@ router.post('/user/login', function(req, res, next) {
   });
 });
 
-router.get('/user/list', function(req, res) {
-
+router.get('/user/manager', function(req, res) {
+  User.find({}, function (err, docs) {
+    res.send(docs);
+  });
 });
 
-router.post('/user/create', function (req, res) {
+router.post('/user/manager', function (req, res) {
   var accounts = req.body.accounts;
   var password = req.body.password;
   var role = req.body.role;
@@ -67,12 +69,12 @@ router.post('/user/create', function (req, res) {
     user.password = hasd;
     user.salt = salt;
     user.save(function(result) {
-      res({error:err,result:result});
+      res.send({error:err,result:result});
     });
   })
 });
 
-router.post('/user/update/:id', function (req, res) {
+router.post('/user/manager/:id', function (req, res) {
   var id = req.params.id;
   var accounts = req.body.accounts;
   var password = req.body.password;

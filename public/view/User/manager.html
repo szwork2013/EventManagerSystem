@@ -1,0 +1,38 @@
+<div class="panel panel-default ng-scope">
+    <div class="panel-heading">
+        <h3 class="panel-title">用户列表<button style="line-height: 5px" class="btn btn-success pull-right" ng-click="create();"><span>新增</span></button></h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>用户名</th>
+                <th>角色</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="doc in docs">
+                <td>{{doc.accounts}}</td>
+                <td>{{doc.role}}</td>
+                <td><button class="btn btn-warning">编辑</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer">
+        <!--<div class="well well-sm">-->
+            <!--<ul class="list-inline" style="margin-bottom: 0">-->
+                <!--<li>-->
+                    <!--<span class="glyphicon glyphicon-pause text-warning"></span> Pending-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<span class="glyphicon glyphicon-play text-success"></span> Processing-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<span class="glyphicon glyphicon-stop text-danger"></span> Complete-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    </div>
+</div>

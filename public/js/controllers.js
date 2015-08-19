@@ -22,12 +22,30 @@ angular.module('EventApp')
           .then(function () {
             $scope.accounts = '';
             $scope.password = '';
+              $scope.user_accounts = localStorage['accounts'];
+              $scope.user_role = localStorage['user_role'];
             $location.path('/base');
           })
           .catch(function (err) {
             $window.alert('错误! ' + err);
           });
       };
+    }
+  ])
+
+  .controller('UserManagerCtrl', ['$scope', '$location', '$window', 'User',
+    function ($scope, $location, $window, User) {
+      if (!User.isLoggedIn()) {
+        $location.path('/');
+        return;
+      }
+
+      User.Rest.query(function (result) {
+        if (result.length>0){
+          $scope.docs = result;
+          console.log($scope.docs);
+        }
+      });
     }
   ])
 

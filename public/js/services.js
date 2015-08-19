@@ -1,6 +1,6 @@
 angular.module('EventApp')
 
-  .factory('authInterceptor', ['$window', function ($window) {
+  .factory('authInterceptor', ['$window', function ($window, $resource) {
 
     return {
       request: function (config) {
@@ -23,7 +23,7 @@ angular.module('EventApp')
     };
   } ])
 
-  .factory('User', [ '$http', '$q', 'Utils', function ($http, $q, Utils) {
+  .factory('User', [ '$http', '$q', 'Utils', '$resource', function ($http, $q, Utils, $resource) {
 
     return {
       isLoggedIn: function () {
@@ -73,7 +73,9 @@ angular.module('EventApp')
         localStorage.removeItem('jwt');
         localStorage.removeItem('accounts');
         localStorage.removeItem('user_role');
-      }
+      },
+
+      Rest:$resource('/api/user/manager/:id', {id:'@_id'})
     }
   } ])
 
