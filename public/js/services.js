@@ -23,7 +23,7 @@ angular.module('EventApp')
     };
   } ])
 
-  .factory('User', [ '$http', '$q', 'Utils', '$resource', function ($http, $q, Utils, $resource) {
+  .factory('User', [ '$http', '$q', '$resource', function ($http, $q, $resource) {
 
     return {
       isLoggedIn: function () {
@@ -31,7 +31,7 @@ angular.module('EventApp')
       },
 
       isAdmin: function () {
-        return localStorage['user_role'] === '管理员' ? true : false;
+        return localStorage.user_role_name === '管理员' ? true : false;
       },
 
       login: function (accounts, password) {
@@ -58,9 +58,11 @@ angular.module('EventApp')
                 }
                 return;
               }
+                console.log(res);
               localStorage.jwt = res.jwt;
               localStorage.accounts = res.user.accounts;
-              localStorage.user_role = res.user.role;
+              localStorage.user_role_name = res.user.role.name;
+              localStorage.user_role_permission = res.user.role.permission;
               resolve();
             })
             .error(function () {
@@ -72,59 +74,23 @@ angular.module('EventApp')
       logout: function () {
         localStorage.removeItem('jwt');
         localStorage.removeItem('accounts');
-        localStorage.removeItem('user_role');
+        localStorage.removeItem('user_role_name');
+        localStorage.removeItem('user_role_permission');
       },
 
       Rest:$resource('/api/user/manager/:id', {id:'@_id'})
-    }
-  } ])
-
-  .factory('Utils', [function () {
-    function setHashKey(obj, h) {
-      if (h) {
-        obj.$$hashKey = h;
-      } else {
-        delete obj.$$hashKey;
-      }
-    }
-
-    function baseExtend(dst, objs, deep) {
-      var h = dst.$$hashKey;
-
-      for (var i = 0, ii = objs.length; i < ii; ++i) {
-        var obj = objs[i];
-        if (!angular.isObject(obj) && !angular.isFunction(obj)) continue;
-        var keys = Object.keys(obj);
-        for (var j = 0, jj = keys.length; j < jj; j++) {
-          var key = keys[j];
-          var src = obj[key];
-
-          if (deep && angular.isObject(src)) {
-            if (!angular.isObject(dst[key])) dst[key] = angular.isArray(src) ? [] : {};
-            baseExtend(dst[key], [src], true);
-          } else {
-            dst[key] = src;
-          }
-        }
-      }
-
-      setHashKey(dst, h);
-      return dst;
-    }
-
-    return {
-      merge: function (dst) {
-        return baseExtend(dst, Array.prototype.slice.call(arguments, 1), true);
-      },
-      getRowQty: function (length, columns) {
-        return new Array(Math.ceil(length / columns));
-      },
-      getItemsByRow: function (array, columns, rowIndex) {
-        var start = columns * rowIndex;
-        return array.slice(start, start + columns);
-      }
     };
   } ])
+
+    .factory('Role',[ '$resource', function ($resource) {
+     return $resource('/api/user/role/:id', {id:'@_id'});
+    }])
+
+    .factory('Menu',[ '$resource', function ($resource) {
+      return {
+        Rest:$resource('/api/user/menu/:id', {id:'@_id'})
+      };
+    }])
 
   .service('fileUpload', ['$http',
   function ($http) {
@@ -137,10 +103,10 @@ angular.module('EventApp')
         }
       })
           .success(function (result) {
-            callback(null, result)
+            callback(null, result);
           })
           .error(function (result) {
-            callback(result)
+            callback(result);
           });
-    }
+    };
   }]);

@@ -1,0 +1,62 @@
+<div class="panel panel-default ng-scope">
+    <div class="panel-heading">
+        <h3 class="panel-title">菜单列表<button style="line-height: 5px" class="btn btn-success pull-right" data-toggle="modal" data-target="#modal_menu"><span>新增</span></button></h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>菜单名</th>
+                <th>父菜单</th>
+                <th>Url</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="doc in docs">
+                <td>{{doc.name}}</td>
+                <td>{{doc.parent.name}}</td>
+                <td>{{doc.url}}</td>
+                <td><button class="btn btn-warning">编辑</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer">
+
+    </div>
+</div>
+
+<div class="modal bootstrap-dialog login-dialog type-success fade size-small in" role="dialog" id="modal_menu" aria-hidden="true" aria-labelledby="exampleModalLabel" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="bootstrap-dialog-header">
+                    <div class="bootstrap-dialog-title">{{menu?'编辑':'新增'}}菜单</div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="bootstrap-dialog-body">
+                    <div class="bootstrap-dialog-message">
+                        <form class="navbar-form">
+                            <div class="form-group">
+                                <input ng-model="accounts" type="text" placeholder="账户" class="form-control">
+                            </div>
+                            <br><br>
+                            <div class="form-group">
+                                <input ng-model="password" type="password" placeholder="密码" class="form-control">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="display: block;">
+                <div class="bootstrap-dialog-footer">
+                    <div class="bootstrap-dialog-footer-buttons">
+                        <button class="btn btn-success" ng-click="saveMenu()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
