@@ -1,5 +1,4 @@
 var express = require('express');
-var salter = require('../lib/salt');
 var expressJwt = require('express-jwt');
 var jsonWebToken = require('jsonwebtoken');
 var config = require('../config');

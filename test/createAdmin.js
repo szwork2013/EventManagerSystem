@@ -3,9 +3,9 @@
  */
 var db = require('../db');
 var User = db.User;
+var Role = db.Role;
 var debug = require('debug')('EventApp:test:createAdmin');
 var config = require('../config');
-var salter = require('../lib/salt');
 
 db.connect(config.db.uri, config.db.options);
 db.connection.on('error', function (err) {
@@ -16,19 +16,21 @@ db.connection.on('error', function (err) {
 db.connection.on('open', function () {
     debug('Connect to DB successful! url:',config.db.uri);
     if (user.accounts && user.password && user.role){
-        salter.getshasalt(user.password,function (hash, salt) {
-            user.password = hash;
-            user.salt = salt;
-            saveUser = new User(user);
-            saveUser.save(function (err, doc) {
-                debug('admin add error:',err);
-                debug('admin add success:',doc);
-            });
-        });
+        Role.findOne({name:user.role}, function (err, doc) {
+            if (doc) {
+                var saveUser = new User(user);
+                saveUser.role = doc._id;
+                saveUser.save(function (err, doc) {
+                    debug('user:',doc);
+                    process.exit(1);
+                });
+            }
+        })
     }
     else
     {
         debug('需要参数 accounts=xxx password=xxx role=xxx');
+        process.exit(1);
     }
 });
 

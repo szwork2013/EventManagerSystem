@@ -143,8 +143,8 @@ angular.module('EventApp')
   }]);
 angular.module('EventApp')
 
-  .controller('IndexCtrl', ['$scope', '$location', '$window', 'User',
-    function ($scope, $location, $window, User) {
+  .controller('IndexCtrl', ['$scope', '$location', '$window', 'User', 'Menu',
+    function ($scope, $location, $window, User, Menu) {
         $scope.isLoggedIn = User.isLoggedIn;
         $scope.isAdmin = User.isAdmin;
       $scope.user_accounts = localStorage.accounts;
@@ -189,6 +189,23 @@ angular.module('EventApp')
           }]
         });
       };
+
+      $scope.parentList = [];
+      Menu.Rest.query(function (result) {
+        if (!result[0].message) {
+          result.forEach(function (parent) {
+            parent.menuList = [];
+            result.forEach(function (menu) {
+              if (menu.parent===parent.name) {
+                parent.menuList.push(menu);
+              }
+            });
+            if (parent.parent==='') {
+              $scope.parentList.push(parent);
+            }
+          });
+        }
+      });
     }
   ])
 
@@ -231,16 +248,64 @@ angular.module('EventApp')
         return;
       }
 
-      $scope.saveMenu = function () {
-
+      $scope.addMenu = function () {
+        $scope.menu = {
+          name:'',
+          parent:'',
+          url:''
+        };
       };
 
-      Menu.Rest.query(function (result) {
+      $scope.deleteMenu = function (doc) {
+        Menu.Rest.remove({id:doc._id}, function(result) {
+          if (result){
+            search();
+          }
+        });
+      };
+
+      $scope.updateMenu = function (doc) {
+        $scope.menu = doc;
+      };
+
+      $scope.saveMenu = function () {
+        console.log($scope.menu);
+        var id = {};
+        if ($scope.menu._id) {id = {id:$scope.menu._id};}
+        Menu.Rest.save(id,{menu:$scope.menu}, function(result) {
+          if (result.error!==0) {
+            $window.alert(result.reason);
+          }
+          else {
+            $window.alert('保存成功');
+            $('#modal_menu').modal('toggle');
+            search();
+          }
+        });
+      };
+
+      Menu.Rest.query({parent:''},function(result) {
         if (result.length>0){
-          $scope.docs = result;
-          console.log($scope.docs);
+          if (result.message){
+            console.log(result.message);
+            return;
+          }
+          $scope.menulist = result;
+          console.log($scope.menulist);
         }
       });
+
+      var search = function () {
+        Menu.Rest.query(function (result) {
+          if (result.length>0){
+            $scope.docs = result;
+            console.log($scope.docs);
+          }
+        });
+      };
+
+      search();
+
     }
   ])
 

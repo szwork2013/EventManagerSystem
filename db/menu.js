@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
     name: String,
-    parent: Schema.Types.Mixed,
+    parent: String,
     url: String
 });
 
